@@ -1,2 +1,2 @@
 # dbms
-DBMS Mini Project on Event Management
+DBMS Mini Project On Event Management
