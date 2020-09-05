@@ -1,0 +1,45 @@
+<%- include("partials/header", {title: "Sign Up"}) %>
+
+  <% if(failure) { %>
+    <div class="alert alert-danger" role="alert">
+        <%= msg %>
+    </div>
+  <% } %>
+
+  <form class="login-form" action="/signup" method="post">
+    <h1>Sign Up</h1>
+
+    <div class="txtb">
+      <input name="email" type="email" placeholder="Enter email" id="email">
+    </div>
+
+    <div class="txtb">
+        <input name="username" type="text" placeholder="Choose username" id="username">
+    </div>
+
+    <div class="txtb">
+      <input name="password" type="password" placeholder="Choose password" id="password">
+    </div>
+
+    <div class="show-password">
+      <input type="checkbox" id="password-checkbox" name="password-checkbox" value="invisible">
+      <label for="password-checkbox"> Show password</label><br>
+    </div>
+
+    <button type="submit" class="btn btn-outline-light btn-lg btn-block signup-btn">Create account</button>
+
+    <div class="bottom-txt">
+        <p>Already have an account? <a href="/login">Login</a></p>
+    </div>
+
+    <div id="constraint-txt">
+      <p>Username constraints:</p>
+        <ol>
+          <li>Can have uppercase/lowercase/numeric characters</li>
+          <li>Can't have spaces</li>
+          <li>Can't have special characters except hyphen(-) and underscore( _ )</li>
+        </ol>
+    </div>
+  </form>
+
+<%- include("partials/footer") %>
