@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
-const mongoose = require("mongoose");
+const mysql = require("mysql");
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -12,15 +12,12 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/accountsDB", { useNewUrlParser: true, useUnifiedTopology: true });
-
-const usersSchema = new mongoose.Schema({
-    email: String,
-    username: String,
-    password: String
+const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: process.env.PASSWORD,
+    database: "accounts_db"
 });
-
-const User = mongoose.model("User", usersSchema);
 
 let failure = false;
 let msg = "";
@@ -39,10 +36,10 @@ app.post("/login", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    User.findOne({username: username}, (err, foundUser) => {
+    connection.query("SELECT * FROM users WHERE username = ?", [username], (err, foundUsers) => {
         if(!err) {
-            if(foundUser) {
-                if(password === foundUser.password) {
+            if(foundUsers.length > 0) {
+                if(password === foundUsers[0].password) {
                     console.log("Logged in");
                     res.redirect("/login");
                 } else {
@@ -72,21 +69,16 @@ app.post("/signup", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    User.findOne({$or: [{email: email}, {username: username}]}, (err, foundUser) => {
+    connection.query("SELECT * FROM users WHERE email = ? OR username = ?", [email, username], (err, foundUsers) => {
         if(!err) {
-            if(!foundUser) {
+            if(!foundUsers.length > 0) {
                 if(email!=="" && username!="" && password!="" && isValid(username)) {
-                    const newUser = new User({
-                        email: email,
-                        username: username,
-                        password: password
-                    });
-                    newUser.save((err) => {
-                        if(!err) {
+                    connection.query("INSERT INTO users VALUES(?)", [[email, username, password]], (error, result) => {
+                        if(!error) {
                             console.log("Account created");
                             res.redirect("/login");
                         } else {
-                            console.log(err);
+                            console.log(error);
                         }
                     });
                 } else {
@@ -130,26 +122,26 @@ app.get("/forgot-password", (req, res) => {
 app.post("/forgot-password", (req, res) => {
     const email = req.body.email;
     const newPassword = generatePassword();
-    
-    User.findOne({email: email}, (err, foundUser) => {
+
+    connection.query("SELECT * FROM users WHERE email = ?", [email], (err, foundUsers) => {
         if(!err) {
-            if(foundUser) {
-                User.updateOne({email: email}, {password: newPassword}, (err, record) => {
-                    if(!err) {
+            if(foundUsers.length > 0) {
+                connection.query("UPDATE users SET password = ? WHERE email = ?", [newPassword, email], (error, result) => {
+                    if(!error) {
                         console.log("Password updated");
+
+                        const message = {
+                            to: email,
+                            from: "tanmay.skater@gmail.com",
+                            subject: "Forgot password",
+                            html: "Your new password is <strong>" + newPassword + "</strong><br>Pls use this to login."
+                        }
+                        sgMail.send(message).then(res.redirect("/login")).catch(err => console.log(err));
+
                     } else {
-                        console.log(err);
+                        console.log(error);
                     }
                 });
-
-                const message = {
-                    to: email,
-                    from: "tanmay.skater@gmail.com",
-                    subject: "Forgot password",
-                    html: "Your new password is <strong>" + newPassword + "</strong><br>Pls use this to login."
-                }
-                sgMail.send(message).then(res.redirect("/login")).catch(err => console.log(err));
-                
             } else {
                 console.log("User not found");
                 failure = true;
@@ -160,7 +152,6 @@ app.post("/forgot-password", (req, res) => {
             console.log(err);
         }
     });
-
 });
 
 function generatePassword() {
