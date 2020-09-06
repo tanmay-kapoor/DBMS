@@ -73,7 +73,7 @@ app.post("/signup", (req, res) => {
         if(!err) {
             if(!foundUsers.length > 0) {
                 if(email!=="" && username!="" && password!="" && isValid(username)) {
-                    connection.query("INSERT INTO users VALUES(?)", [[email, username, password]], (error, result) => {
+                    connection.query("INSERT INTO users(email, username, password) VALUES(?)", [[email, username, password]], (error, result) => {
                         if(!error) {
                             console.log("Account created");
                             res.redirect("/login");
@@ -145,7 +145,7 @@ app.post("/forgot-password", (req, res) => {
             } else {
                 console.log("User not found");
                 failure = true;
-                msg = "Account with specified username/email exists already";
+                msg = "User not found";
                 res.redirect("/forgot-password");
             }
         } else {
