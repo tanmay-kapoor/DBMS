@@ -21,12 +21,14 @@ const connection = mysql.createConnection({
 
 let failure = false;
 let msg = "";
+let loggedIn = false;
 
 app.get("/", (req, res) => {
     res.redirect("/login");
 });
 
 app.get("/login", (req, res) => {
+    loggedIn = false;
     res.render("login", {failure: failure, msg: msg});
     failure = false;
     msg = "";
@@ -40,8 +42,8 @@ app.post("/login", (req, res) => {
         if(!err) {
             if(foundUsers.length > 0) {
                 if(password === foundUsers[0].password) {
-                    console.log("Logged in");
-                    res.redirect("/login");
+                    loggedIn = true;
+                    res.redirect("index");
                 } else {
                     failure = true;
                     msg = "Incorrect credentials";
@@ -59,6 +61,7 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/signup", (req, res) => {
+    loggedIn = false;
     res.render("signup", {failure: failure, msg: msg});
     failure = false;
     msg = "";
@@ -162,5 +165,53 @@ function generatePassword() {
     }
     return newPassword;
 }
+
+app.get("/index", (req, res) => {
+    if(loggedIn) {
+        res.render("index");
+    } else {
+        res.render("404", {msg: "Not logged in"});
+    }
+});
+
+app.get("/sunfest", (req, res) => {
+    if(loggedIn) {
+        res.render("sunfest");
+    } else {
+        res.render("404", {msg: "Not logged in"});
+    }
+});
+
+app.get("/artists", (req, res) => {
+    if(loggedIn) {
+        res.render("artists");
+    } else {
+        res.render("404", {msg: "Not logged in"});
+    }
+});
+
+app.get("/profile", (req, res) => {
+    if(loggedIn) {
+        res.render("profile");
+    } else {
+        res.render("404", {msg: "Not logged in"});
+    }
+});
+
+app.get("/contact", (req, res) => {
+    if(loggedIn) {
+        res.render("contact");
+    } else {
+        res.render("404", {msg: "Not logged in"});
+    }
+});
+
+app.get("/tickets", (req, res) => {
+    if(loggedIn) {
+        res.render("tickets");
+    } else {
+        res.render("404");
+    }
+})
 
 app.listen(3000, () => console.log("Server started on port 3000"));

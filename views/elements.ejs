@@ -1,25 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<%- include("partials/header2", {title: "Elements"}) %>
 
-    <title>Sunfest</title>
-
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-
-    <!-- FontAwesome CSS -->
-    <link rel="stylesheet" href="css/fontawesome-all.min.css">
-
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="css/swiper.min.css">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
-</head>
 <body class="elements-page">
     <header class="site-header">
         <div class="header-bar">
@@ -46,7 +26,7 @@
                                 <li><a href="#">ARTISTS</a></li>
                                 <li><a href="#">BLOG</a></li>
                                 <li><a href="#">CONTACT</a></li>
-                                <li><a href="#"><i class="fas fa-search"></i></a></li>
+                                <li><a href="/login">Logout</a></li>
                             </ul><!-- flex -->
                         </nav><!-- .site-navigation -->
                     </div><!-- .col-12 -->
@@ -364,13 +344,4 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         </div><!-- footer-content-wrapper -->
     </footer><!-- site-footer -->
 
-    <script type='text/javascript' src='js/jquery.js'></script>
-    <script type='text/javascript' src='js/masonry.pkgd.min.js'></script>
-    <script type='text/javascript' src='js/jquery.collapsible.min.js'></script>
-    <script type='text/javascript' src='js/swiper.min.js'></script>
-    <script type='text/javascript' src='js/jquery.countdown.min.js'></script>
-    <script type='text/javascript' src='js/circle-progress.min.js'></script>
-    <script type='text/javascript' src='js/jquery.countTo.min.js'></script>
-    <script type='text/javascript' src='js/custom.js'></script>
-</body>
-</html>
+<%- include("partials/footer2") %>

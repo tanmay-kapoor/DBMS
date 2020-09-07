@@ -1,25 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Sunfest</title>
-
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-
-    <!-- FontAwesome CSS -->
-    <link rel="stylesheet" href="css/fontawesome-all.min.css">
-
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="css/swiper.min.css">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
-</head>
+<%- include("partials/header2", {title: "Buy Tickets"}) %>
 
 <body class="tickets-page">
     <header class="site-header">
@@ -28,26 +7,20 @@
                 <div class="row align-items-center">
                     <div class="col-10 col-lg-4">
                         <h1 class="site-branding flex">
-                            <a href="#">SUNFEST</a>
+                            <a href="/index">SUNFEST</a>
                         </h1>
                     </div>
 
                     <div class="col-2 col-lg-8">
                         <nav class="site-navigation">
-                            <div class="hamburger-menu d-lg-none">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div><!-- .hamburger-menu -->
 
                             <ul>
-                                <li><a href="#">HOME</a></li>
-                                <li><a href="#">SUNFEST</a></li>
-                                <li><a href="#">ARTISTS</a></li>
-                                <li><a href="#">PROFILE</a></li>
-                                <li><a href="#">CONTACT</a></li>
-                                <li><a href="#"><i class="fas fa-search"></i></a></li>
+                                <li><a href="/index">HOME</a></li>
+                                <li><a href="/sunfest">SUNFEST</a></li>
+                                <li><a href="/artists">ARTISTS</a></li>
+                                <li><a href="/profile">PROFILE</a></li>
+                                <li><a href="/contact">CONTACT</a></li>
+                                <li><a href="/login">Logout</a></li>
                             </ul><!-- flex -->
                         </nav><!-- .site-navigation -->
                     </div><!-- .col-12 -->
@@ -98,7 +71,7 @@
                                     <div class="single-event-details">
                                         <div class="single-event-details-row">
                                             <label>Start:</label>
-                                            <p>November</p> 17 @ 09:00 am</p>
+                                            <p>November 17 @ 09:00 am</p>
                                         </div>
 
                                         <div class="single-event-details-row">
@@ -108,7 +81,7 @@
 
                                         <div class="single-event-details-row">
                                             <label>Price:</label>
-                                            <p class="sold-out">Rs.2999 <span>Sold Out</span></p>
+                                            <p class="onwards">Rs.2999 <span>onwards</span></p>
                                         </div>
 
                                         <div class="single-event-details-row">
@@ -302,13 +275,4 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         </div><!-- footer-content-wrapper -->
     </footer><!-- site-footer -->
 
-    <script type='text/javascript' src='js/jquery.js'></script>
-    <script type='text/javascript' src='js/masonry.pkgd.min.js'></script>
-    <script type='text/javascript' src='js/jquery.collapsible.min.js'></script>
-    <script type='text/javascript' src='js/swiper.min.js'></script>
-    <script type='text/javascript' src='js/jquery.countdown.min.js'></script>
-    <script type='text/javascript' src='js/circle-progress.min.js'></script>
-    <script type='text/javascript' src='js/jquery.countTo.min.js'></script>
-    <script type='text/javascript' src='js/custom.js'></script>
-</body>
-</html>
+<%- include("partials/footer2") %>

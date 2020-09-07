@@ -1321,12 +1321,12 @@ body {
     color: #989898;
 }
 
-.single-event-details-row p.sold-out {
+.single-event-details-row p.onwards {
     color: #040608;
 }
 
-.single-event-details-row p.sold-out span{
-    color: #ff0000;
+.single-event-details-row p.onwards span{
+    color: #228B22;
 }
 
 .single-event-map {
