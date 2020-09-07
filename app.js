@@ -170,7 +170,7 @@ app.get("/index", (req, res) => {
     if(loggedIn) {
         res.render("index");
     } else {
-        res.render("404", {msg: "Not logged in"});
+        res.render("404");
     }
 });
 
@@ -178,7 +178,7 @@ app.get("/sunfest", (req, res) => {
     if(loggedIn) {
         res.render("sunfest");
     } else {
-        res.render("404", {msg: "Not logged in"});
+        res.render("404");
     }
 });
 
@@ -186,7 +186,7 @@ app.get("/artists", (req, res) => {
     if(loggedIn) {
         res.render("artists");
     } else {
-        res.render("404", {msg: "Not logged in"});
+        res.render("404");
     }
 });
 
@@ -194,15 +194,7 @@ app.get("/profile", (req, res) => {
     if(loggedIn) {
         res.render("profile");
     } else {
-        res.render("404", {msg: "Not logged in"});
-    }
-});
-
-app.get("/contact", (req, res) => {
-    if(loggedIn) {
-        res.render("contact");
-    } else {
-        res.render("404", {msg: "Not logged in"});
+        res.render("404");
     }
 });
 
@@ -212,6 +204,36 @@ app.get("/tickets", (req, res) => {
     } else {
         res.render("404");
     }
-})
+});
+
+app.get("/contact", (req, res) => {
+    if(loggedIn) {
+        res.render("contact");
+    } else {
+        res.render("404");
+    }
+});
+
+app.post("/contact", (req, res) => {
+    const { name, email, subject, message } = req.body;
+
+    connection.query("SELECT username FROM users WHERE email = ?", [email], (error, foundUsernames) => {
+        if(!error) {
+            if(foundUsernames.length > 0) {
+                let username = foundUsernames[0].username;
+    
+                const messageToSend = {
+                    to: "tanmay.skater@gmail.com",
+                    from: "tanmay.skater@gmail.com",
+                    subject: subject,
+                    html: "<strong>Name: </strong>"+name+"<br><strong>Email: </strong>"+email+"<br><strong>Account username: </strong>"+username+"<br><strong>Issue: </strong>"+message
+                }
+                sgMail.send(messageToSend).then(res.redirect("/contact")).catch(err => console.log(err));
+            }
+        } else {
+            console.log(error);
+        }
+    });
+});
 
 app.listen(3000, () => console.log("Server started on port 3000"));
