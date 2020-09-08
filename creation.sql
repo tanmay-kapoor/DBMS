@@ -39,10 +39,27 @@ CREATE TABLE artist_event_relation(
     FOREIGN KEY(event_id) REFERENCES events(event_id)
 );
 
-INSERT INTO artists(name, description, performance_time) VALUES("Jamila Williams", "Top 10 simgers of USA. Wants to join all of us to promote her new album and ahe a great time!", "15:30:00"),
-															   ("Sandra Superstar", "Here to perform for the 5th consecutve year on popular demand! Sandra is an absolute su[erstar when it comes to performing for the criwd.", "18:40:00"),
-															   ("DJ Crazyhead", "As the name suggests, he is here to make our minds go crazy and fill our hearts with his amazing beats", "22:35:00"),
-                                                               ("DJ Snake", "No description needed. DJ Snake loves India and comes to perform in Sunfest every year. He is our star performer and you have probably hear all his songs", "23:55:00");
+CREATE TABLE full_lineup(
+	performer_id		INT				PRIMARY KEY		AUTO_INCREMENT,
+    name				VARCHAR(20)		NOT NULL
+);
+
+INSERT INTO artists(name, description, performance_time) VALUES("Jamila Williams", "Top 10 singers of USA. Wants to join all of us to promote her new album and have a great time!", "15:30:00");
+INSERT INTO artists(name, description, performance_time) VALUES("Sandra Superstar", "Here to perform for the 5th consecutve year on popular demand! Sandra is an absolute superstar when it comes to performing for the crowd.", "18:40:00");
+INSERT INTO artists(name, description, performance_time) VALUES("DJ Crazyhead", "As the name suggests, he is here to make our minds go crazy and fill our hearts with his amazing beats", "22:35:00");
+
+-- INSERT INTO artists(name, description, performance_time) VALUES("DJ Snake", "No description needed. DJ Snake loves India and comes to perform in the Sunfest every year. He is our star performer and you have probably heard all his songs", "23:55:00");
+
+INSERT INTO full_lineup(name) VALUES("Vanic");
+INSERT INTO full_lineup(name) VALUES("Alan Walker");
+INSERT INTO full_lineup(name) VALUES("Afrojack");
+INSERT INTO full_lineup(name) VALUES("Dua Lipa");
+INSERT INTO full_lineup(name) VALUES("Machine Gun Kelly");
+INSERT INTO full_lineup(name) VALUES("The Weeknd");
+INSERT INTO full_lineup(name) VALUES("Inna");
+INSERT INTO full_lineup(name) VALUES("Tyga");
 
 
-                             
+-- INSERT INTO full_lineup(name) VALUES("Miska Smith");
+-- INSERT INTO full_lineup(name) VALUES("Hayley Down");
+-- INSERT INTO full_lineup(name) VALUES("DJ Girl");

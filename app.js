@@ -185,7 +185,20 @@ app.get("/sunfest", (req, res) => {
 app.get("/artists", (req, res) => {
     if(loggedIn) {
         connection.query("SELECT * FROM artists", (err, artists) => {
-            res.render("artists", {foundArtists: artists});
+            if(!err) {
+                connection.query("SELECT * FROM full_lineup", (error, fullLineup) => {
+                    if(!error) {
+                        res.render("artists", {
+                            foundArtists: artists,
+                            lineup: fullLineup
+                        });
+                    } else {
+                        console.log(error);
+                    }
+                });
+            } else {
+                console.log(err);
+            }
         });
     } else {
         res.render("404");
