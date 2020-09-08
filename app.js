@@ -176,10 +176,31 @@ app.get("/index", (req, res) => {
 
 app.get("/sunfest", (req, res) => {
     if(loggedIn) {
-        res.render("sunfest");
+        connection.query("SELECT * FROM reviews", (err, reviews) => {
+            if(!err) {
+                res.render("sunfest", {foundReviews: reviews});
+            } else {
+                console.log(err);
+            }
+        });
     } else {
         res.render("404");
     }
+});
+
+app.get("/reviews", (req, res) => {
+    res.render("reviews");
+});
+
+app.post("/reviews", (req, res) => {
+    const { title, description } = req.body;
+    connection.query("INSERT INTO reviews(title, description) VALUES(?)", [[title, description]], (err, results) => {
+        if(!err) {
+            res.redirect("/sunfest");
+        } else {
+            console.log(err);
+        }
+    });
 });
 
 app.get("/artists", (req, res) => {

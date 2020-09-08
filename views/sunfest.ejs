@@ -63,27 +63,26 @@
                         </div><!-- -->
 
                         <div class="entry-description">
-                            <p>Quisque at erat eu libero consequat tempus. Quisque mole stie convallis tempus.
-                                Ut semper purus metus, a euismod sapien sodales ac. Duis viverra eleifend fermentum.
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam.
-                                Integer accumsan sodales odio, id tempus velit ullamcorper id. Quisque at erat eu libero consequat tempus.
-                                 Quisque molestie convallis tempus. Ut semper purus metus, a euismod sapien sodales ac.
-                                 Duis viverra eleifend fermentum. Donec sagittis lacus sit amet augue sodales.</p>
+                            <p>We love you all to the end of the world.
+                                We relaise that it is you all who make the event so successful every year 
+                                that we are priviledged enough to organise it this eyar as well!
+                                We will always strive to make this event the best event you experience..
+                                until it arrives the next year!
+                            </p>
                         </div><!-- entry-description -->
                     </div><!-- col-6 -->
 
                     <div class="col-12 col-lg-6 mt-5 mt-lg-0">
                         <div class="entry-header">
-                            <h3>10 year mission</h3>
+                            <h3>Why SUNFEST?</h3>
                         </div><!-- -->
 
                         <div class="entry-description">
-                            <p>Quisque at erat eu libero consequat tempus. Quisque mole stie convallis tempus.
-                                Ut semper purus metus, a euismod sapien sodales ac. Duis viverra eleifend fermentum.
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam.
-                                Integer accumsan sodales odio, id tempus velit ullamcorper id. Quisque at erat eu libero consequat tempus.
-                                 Quisque molestie convallis tempus. Ut semper purus metus, a euismod sapien sodales ac.
-                                 Duis viverra eleifend fermentum. Donec sagittis lacus sit amet augue sodales.</p>
+                            <p>If you're new to SUNFEST, be ready to have the time of your life enjoying with
+                                your friends to the fullest! You can check out our reviews <a href="#reviews">here.</a>
+                                This year we have made proper arrangements to ensure necessary sanitization of all 
+                                the stages and also maintain social distancing without compromising the fun!
+                            </p>
                         </div><!-- entry-description -->
                     </div><!-- col-6 -->
                 </div><!-- row -->
@@ -156,79 +155,42 @@
     <div class="testimonial-wrap flex flex-wrap align-self-stretch">
         <div class="testimonials-container">
             <div class="swiper-container testimonials-slider">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="testimonial-content-wrap flex flex-wrap align-items-stretch">
-                            <figure class="user-avatar">
-                                <img src="images/testimonial-user.jpg" alt="">
-                            </figure><!-- .user-thumbnail -->
+                <div class="swiper-wrapper" id="reviews">
 
-                            <div class="testimonial-content">
-                                <header class="entry-header">
-                                    <h2 class="entry-title">We love sunfest</h2>
-                                </header><!-- .entry-header -->
+                    <% foundReviews.forEach(review => { %>
+                        <div class="swiper-slide">
+                            <div class="testimonial-content-wrap flex flex-wrap align-items-stretch">
+                                <figure class="user-avatar">
+                                    <img src="images/testimonial-user.jpg" alt="">
+                                </figure><!-- .user-thumbnail -->
+    
+                                <div class="testimonial-content">
+                                    <header class="entry-header">
+                                        <h2 class="entry-title"><%= review.title %></h2>
+                                    </header><!-- .entry-header -->
+    
+                                    <div class="entry-content">
+                                        <p><%= review.description %></p>
+                                    </div><!-- .entry-content -->
+    
+                                    <footer class="entry-footer">
+                                        <a href="#">-Participant</a>
+                                    </footer><!-- .entry-footer -->
+                                </div><!-- .testimonial-content -->
+                            </div><!-- .testimonial-content-wrap -->
+                        </div><!-- .swiper-slide -->
+                    <% }); %>
 
-                                <div class="entry-content">
-                                    <p>Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit amet tellus blandit. Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit am et tellus blandit. Etiam nec odio vestibul. Etiam nec odio vestibulum est mat tis effic iturut magna.</p>
-                                </div><!-- .entry-content -->
-
-                                <footer class="entry-footer">
-                                    <a href="#">Daiane Smith, Participant</a>
-                                </footer><!-- .entry-footer -->
-                            </div><!-- .testimonial-content -->
-                        </div><!-- .testimonial-content-wrap -->
-                    </div><!-- .swiper-slide -->
-
-                    <div class="swiper-slide">
-                        <div class="testimonial-content-wrap flex">
-                            <figure class="user-avatar">
-                                <img src="images/testimonial-user.jpg" alt="">
-                            </figure><!-- .user-thumbnail -->
-
-                            <div class="testimonial-content">
-                                <header class="entry-header">
-                                    <h2 class="entry-title">We love sunfest</h2>
-                                </header><!-- .entry-header -->
-
-                                <div class="entry-content">
-                                    <p>Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit amet tellus blandit. Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit am et tellus blandit. Etiam nec odio vestibul. Etiam nec odio vestibulum est mat tis effic iturut magna.</p>
-                                </div><!-- .entry-content -->
-
-                                <footer class="entry-footer">
-                                    <a href="#">Daiane Smith, Participant</a>
-                                </footer><!-- .entry-footer -->
-                            </div><!-- .testimonial-content -->
-                        </div><!-- .testimonial-content-wrap -->
-                    </div><!-- .swiper-slide -->
-
-                    <div class="swiper-slide">
-                        <div class="testimonial-content-wrap flex">
-                            <figure class="user-avatar">
-                                <img src="images/testimonial-user.jpg" alt="">
-                            </figure><!-- .user-thumbnail -->
-
-                            <div class="testimonial-content">
-                                <header class="entry-header">
-                                    <h2 class="entry-title">We love sunfest</h2>
-                                </header><!-- .entry-header -->
-
-                                <div class="entry-content">
-                                    <p>Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit amet tellus blandit. Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit am et tellus blandit. Etiam nec odio vestibul. Etiam nec odio vestibulum est mat tis effic iturut magna.</p>
-                                </div><!-- .entry-content -->
-
-                                <footer class="entry-footer">
-                                    <a href="#">Daiane Smith, Participant</a>
-                                </footer><!-- .entry-footer -->
-                            </div><!-- .testimonial-content -->
-                        </div><!-- .testimonial-content-wrap -->
-                    </div><!-- .swiper-slide -->
                 </div><!-- .swiper-wrapper -->
 
                 <!-- Add Pagination -->
-                <div class="swiper-pagination"></div>
+                <div class="swiper-pagination" style="position: absolute; bottom: 60px;"></div>
+                <form action="/reviews" method="get">
+                    <button type="submit" class="btn btn-dark" style="margin-left: 260px;">Add Review</button>
+                </form>
             </div><!-- .swiper-container -->
 
-            <div class="swiper-button-next">
+            <div class="swiper-button-next" style="position: absolute; right: 40px;">
                 <img src="images/button.png" alt="">
             </div><!-- .slider-button -->
         </div><!-- .testimonials-container" -->

@@ -1,0 +1,114 @@
+<%- include("partials/header2", {title: "About"}) %>
+
+<body class="about-us">
+    <header class="site-header">
+        <div class="header-bar">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-10 col-lg-3">
+                        <h1 class="site-branding flex">
+                            <a href="/index">SUNFEST</a>
+                        </h1>
+                    </div>
+
+                    <div class="col-2 col-lg-9">
+                        <nav class="site-navigation">
+
+                            <ul>
+                                <li><a href="/index">HOME</a></li>
+                                <li><a href="/sunfest">SUNFEST</a></li>
+                                <li><a href="/artists">ARTISTS</a></li>
+                                <li><a href="/profile">PROFILE</a></li>
+                                <li><a href="/contact">CONTACT</a></li>
+                                <li><a href="/login">Logout</a></li>
+                            </ul><!-- flex -->
+                        </nav><!-- .site-navigation -->
+                    </div><!-- .col-12 -->
+                </div><!-- .row -->
+            </div><!-- container-fluid -->
+        </div><!-- header-bar -->
+    </header><!-- .site-header -->
+
+    <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="entry-header">
+                        <h2 class="entry-title">Reviews</h2>
+
+                        <ul class="breadcrumbs flex align-items-center">
+                            <li><a href="#">Home</a></li>
+                            <li>About us</li>
+                        </ul><!-- .breadcrumbs -->
+                    </div><!-- .entry-header -->
+                </div><!-- .col-12 -->
+            </div><!-- .row -->
+        </div><!-- .container -->
+    </div><!-- .page-header -->
+
+    <div class="main-content">
+        <div class="container">
+            <div class="entry-header">
+                <div class="entry-title">
+                    <h2>Add new review</h2>
+                </div><!-- -->
+            </div><!-- -->
+        </div><!-- container -->
+    </div><!-- main-content -->
+
+
+    <div style="width: 70%; margin: 100px auto;">
+        <form action="/reviews" method=post>
+            <div class="form-group">
+              <label for="text-box" style="color: black; font-weight: bold;">Title</label>
+              <input type="text" name="title" class="form-control" id="text-box" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="big-text-box" style="color: black; font-weight: bold;">Review</label>
+                <textarea class="form-control" name="description" id="big-text-box" rows="5" autocomplete="off"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Publish</button>
+        </form>
+    </div>
+ 
+
+    <footer class="site-footer">
+        <div class="footer-cover-title flex justify-content-center align-items-center">
+            <h2>SUNFEST</h2>
+        </div><!-- .site-footer -->
+
+        <div class="footer-content-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="entry-title">
+                            <a href="#">SUNFEST</a>
+                        </div><!-- entry-title -->
+
+                        <div class="entry-mail">
+                            <a href="#">SAYHELLO@SUNFEST.COM</a>
+                        </div><!-- .entry-mail -->
+
+                        <div class="copyright-info">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </div><!-- copyright-info -->
+
+                        <div class="footer-social">
+                            <ul class="flex justify-content-center align-items-center">
+                                <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fab fa-dribbble"></i></a></li>
+                                <li><a href="#"><i class="fab fa-behance"></i></a></li>
+                                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                            </ul>
+                        </div><!-- footer-social -->
+                    </div><!-- col -->
+                </div><!-- row -->
+            </div><!-- container -->
+        </div><!-- footer-content-wrapper -->
+    </footer><!-- site-footer -->
+
+<%- include("partials/footer2") %>

@@ -63,3 +63,12 @@ INSERT INTO full_lineup(name) VALUES("Tyga");
 -- INSERT INTO full_lineup(name) VALUES("Miska Smith");
 -- INSERT INTO full_lineup(name) VALUES("Hayley Down");
 -- INSERT INTO full_lineup(name) VALUES("DJ Girl");
+
+CREATE TABLE reviews(
+	review_id		INT 				PRIMARY KEY			AUTO_INCREMENT,
+	title			VARCHAR(30),
+    description		VARCHAR(100)
+);
+
+INSERT INTO reviews(title, description) VALUES("We love sunfest!", "It's amazing to come here every year and just forget about all the stress for 2 complete days!");
+INSERT INTO reviews(title, description) VALUES("My favorite event!", "I enjoy it alot and love to spend time here with my friends listening to the best music.");
