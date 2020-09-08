@@ -184,7 +184,9 @@ app.get("/sunfest", (req, res) => {
 
 app.get("/artists", (req, res) => {
     if(loggedIn) {
-        res.render("artists");
+        connection.query("SELECT * FROM artists", (err, artists) => {
+            res.render("artists", {foundArtists: artists});
+        });
     } else {
         res.render("404");
     }

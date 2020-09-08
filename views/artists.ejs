@@ -64,75 +64,55 @@
                         </div><!-- entry-title -->
 
                         <div class="lineup-artists">
-                            <div class="lineup-artists-wrap flex flex-wrap">
-                                <figure class="featured-image">
-                                    <a href="#"> <img src="images/black-chick.jpg" alt=""> </a>
-                                </figure><!-- featured-image -->
 
-                                <div class="lineup-artists-description">
-                                    <div class="lineup-artists-description-container">
-                                        <div class="entry-title">
-                                            Jamila Williams
-                                        </div><!-- entry-title -->
+                            <% foundArtists.forEach(artist => { %>
+                                <% if(artist.artist_id % 2 === 1) { %>
+                                    <div class="lineup-artists-wrap flex flex-wrap">
+                                        <figure class="featured-image">
+                                            <a href="#"> <img src="images/<%= artist.name %>.jpg" alt=""> </a>
+                                        </figure><!-- featured-image -->
+        
+                                        <div class="lineup-artists-description">
+                                            <div class="lineup-artists-description-container">
+                                                <div class="entry-title">
+                                                    <%= artist.name %>
+                                                </div><!-- entry-title -->
+        
+                                                <div class="entry-content">
+                                                    <p><%= artist.description %></p>
+                                                    <p>Time :  <%= artist.performance_time %></p>
+                                                </div><!-- entry-content -->
 
-                                        <div class="entry-content">
-                                            <p>Quisque at erat eu libero consequat tempus. Quisque mole stie convallis tempus. Ut semper purus metus, a euismod sapien sodales ac. Duis viverra eleifend fermentum. </p>
-                                        </div><!-- entry-content -->
+                                            </div><!-- lineup-artists-description-container -->
+                                        </div><!-- lineup-artists-description -->
+                                    </div><!-- lineup-artists-wrap -->
+                                <% } else { %>
+                                    <div class="lineup-artists-wrap flex flex-wrap">
+                                        <div class="lineup-artists-description">
+                                            <figure class="featured-image d-md-none">
+                                                <a href="#"> <img src="images/DJ Snake.jpg" alt=""> </a>
+                                            </figure><!-- featured-image -->
+        
+                                            <div class="lineup-artists-description-container">
+                                                <div class="entry-title">
+                                                    <%= artist.name %>
+                                                </div><!-- entry-title -->
+        
+                                                <div class="entry-content">
+                                                    <p><%= artist.description %></p>
+                                                    <p>Time :  <%= artist.performance_time %></p>
+                                                </div><!-- entry-content -->
 
-                                        <div class="box-link">
-                                            <a href=""><img src="images/box.jpg" alt=""></a>
-                                        </div><!-- box-link -->
-                                    </div><!-- lineup-artists-description-container -->
-                                </div><!-- lineup-artists-description -->
-                            </div><!-- lineup-artists-wrap -->
+                                            </div><!-- lineup-artists-description-container -->
+                                        </div><!-- lineup-artists-description -->
+        
+                                        <figure class="featured-image d-none d-md-block">
+                                            <a href="#"> <img src="images/mathew-kane.jpg" alt=""> </a>
+                                        </figure><!-- featured-image -->
+                                    </div><!-- lineup-artists-wrap -->
+                                <% } %>
+                            <% }); %>
 
-                            <div class="lineup-artists-wrap flex flex-wrap">
-                                <div class="lineup-artists-description">
-                                    <figure class="featured-image d-md-none">
-                                        <a href="#"> <img src="images/mathew-kane.jpg" alt=""> </a>
-                                    </figure><!-- featured-image -->
-
-                                    <div class="lineup-artists-description-container">
-                                        <div class="entry-title">
-                                            Sandra Superstar
-                                        </div><!-- entry-title -->
-
-                                        <div class="entry-content">
-                                            <p>Quisque at erat eu libero consequat tempus. Quisque mole stie convallis tempus. Ut semper purus metus, a euismod sapien sodales ac. Duis viverra eleifend fermentum. </p>
-                                        </div><!-- entry-content -->
-
-                                        <div class="box-link">
-                                            <a href="#"><img src="images/box.jpg" alt=""></a>
-                                        </div><!-- box-link -->
-                                    </div><!-- lineup-artists-description-container -->
-                                </div><!-- lineup-artists-description -->
-
-                                <figure class="featured-image d-none d-md-block">
-                                    <a href="#"> <img src="images/mathew-kane.jpg" alt=""> </a>
-                                </figure><!-- featured-image -->
-                            </div><!-- lineup-artists-wrap -->
-
-                            <div class="lineup-artists-wrap flex flex-wrap">
-                                <figure class="featured-image">
-                                    <a href="#"> <img src="images/eric-ward.jpg" alt=""> </a>
-                                </figure><!-- featured-image -->
-
-                                <div class="lineup-artists-description">
-                                    <div class="lineup-artists-description-container">
-                                        <div class="entry-title">
-                                            DJ Crazyhead
-                                        </div><!-- entry-title -->
-
-                                        <div class="entry-content">
-                                            <p>Quisque at erat eu libero consequat tempus. Quisque mole stie convallis tempus. Ut semper purus metus, a euismod sapien sodales ac. Duis viverra eleifend fermentum. </p>
-                                        </div><!-- entry-content -->
-
-                                        <div class="box-link">
-                                            <a href="#"> <img src="images/box.jpg" alt=""></a>
-                                        </div><!-- box-link -->
-                                    </div><!-- lineup-artists-description-container -->
-                                </div><!-- lineup-artists-description -->
-                            </div><!-- lineup-artists-wrap -->
                         </div><!-- lineup-artists -->
                     </div><!-- lineup-artists-headline -->
                 </div><!-- col-12 -->
@@ -150,7 +130,6 @@
                             <div class="col-6 col-md-4 col-lg-3 artist-single">
                                 <figure class="featured-image">
                                     <a href="#"> <img src="images/image-1.jpg" alt=""> </a>
-                                    <a href="#" class="box-link"> <img src="images/box.jpg" alt=""> </a>
                                 </figure><!-- featured-image -->
 
                                 <h2>Miska Smith</h2>
@@ -159,7 +138,6 @@
                             <div class="col-6 col-md-4 col-lg-3 artist-single">
                                 <figure class="featured-image">
                                     <a href="#"> <img src="images/image-2.jpg" alt=""> </a>
-                                    <a href="#" class="box-link"> <img src="images/box.jpg" alt=""> </a>
                                 </figure><!-- featured-image -->
 
                                 <h2>Hayley Down</h2>
@@ -168,7 +146,6 @@
                             <div class="col-6 col-md-4 col-lg-3 artist-single">
                                 <figure class="featured-image">
                                     <a href="#"> <img src="images/image-3.jpg" alt=""> </a>
-                                    <a href="#" class="box-link"> <img src="images/box.jpg" alt=""> </a>
                                 </figure><!-- featured-image -->
 
                                 <h2>The Band Song</h2>
@@ -177,7 +154,6 @@
                             <div class="col-6 col-md-4 col-lg-3 artist-single">
                                 <figure class="featured-image">
                                     <a href="#"> <img src="images/image-4.jpg" alt=""> </a>
-                                    <a href="#" class="box-link"> <img src="images/box.jpg" alt=""> </a>
                                 </figure><!-- featured-image -->
 
                                 <h2>Pink Machine</h2>
@@ -186,7 +162,6 @@
                             <div class="col-6 col-md-4 col-lg-3 artist-single">
                                 <figure class="featured-image">
                                     <a href="#"> <img src="images/image-5.jpg" alt=""> </a>
-                                    <a href="#" class="box-link"> <img src="images/box.jpg" alt=""> </a>
                                 </figure><!-- featured-image -->
 
                                 <h2>Brasil Band</h2>
@@ -195,7 +170,6 @@
                             <div class="col-6 col-md-4 col-lg-3 artist-single">
                                 <figure class="featured-image">
                                     <a href="#"> <img src="images/image-6.jpg" alt=""> </a>
-                                    <a href="#" class="box-link"> <img src="images/box.jpg" alt=""> </a>
                                 </figure><!-- featured-image -->
 
                                 <h2>Mickey</h2>
@@ -204,7 +178,6 @@
                             <div class="col-6 col-md-4 col-lg-3 artist-single">
                                 <figure class="featured-image">
                                     <a href="#"> <img src="images/image-7.jpg" alt=""> </a>
-                                    <a href="#" class="box-link"> <img src="images/box.jpg" alt=""> </a>
                                 </figure><!-- featured-image -->
 
                                 <h2>DJ Girl</h2>
@@ -213,20 +186,11 @@
                             <div class="col-6 col-md-4 col-lg-3 artist-single">
                                 <figure class="featured-image">
                                     <a href="#"> <img src="images/image-8.jpg" alt=""> </a>
-                                    <a href="#" class="box-link"> <img src="images/box.jpg" alt=""> </a>
                                 </figure><!-- featured-image -->
 
                                 <h2>Stan Smith</h2>
                             </div><!-- artist-single -->
                         </div><!-- the-complete-lineup-artists -->
-
-                        <div class="row justify-content-center">
-                            <div class="see-complete-lineup">
-                                <div class="entry-footer">
-                                    <a href="elements.html" class="btn">See all lineup</a>
-                                </div>
-                            </div>
-                        </div>
                     </div><!-- the-complete-lineup -->
                 </div><!-- col-12 -->
             </div><!-- row -->
