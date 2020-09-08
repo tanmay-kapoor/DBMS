@@ -43,7 +43,7 @@ app.post("/login", (req, res) => {
             if(foundUsers.length > 0) {
                 if(password === foundUsers[0].password) {
                     loggedIn = true;
-                    res.redirect("index");
+                    res.redirect("/index");
                 } else {
                     failure = true;
                     msg = "Incorrect credentials";
