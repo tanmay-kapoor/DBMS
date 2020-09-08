@@ -189,7 +189,11 @@ app.get("/sunfest", (req, res) => {
 });
 
 app.get("/reviews", (req, res) => {
-    res.render("reviews");
+    if(loggedIn) {
+        res.render("reviews");
+    } else {
+        res.render("404");
+    }
 });
 
 app.post("/reviews", (req, res) => {
