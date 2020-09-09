@@ -19,9 +19,13 @@ const connection = mysql.createConnection({
     database: "accounts_db"
 });
 
+let username = "";
+let password = "";
+let email = "";
 let failure = false;
 let msg = "";
 let loggedIn = false;
+let quantities = [];
 
 app.get("/", (req, res) => {
     res.redirect("/login");
@@ -35,8 +39,8 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
+    username = req.body.username;
+    password = req.body.password;
 
     connection.query("SELECT * FROM users WHERE username = ?", [username], (err, foundUsers) => {
         if(!err) {
@@ -68,9 +72,9 @@ app.get("/signup", (req, res) => {
 });
 
 app.post("/signup", (req, res) => {
-    const email = req.body.email;
-    const username = req.body.username;
-    const password = req.body.password;
+    email = req.body.email;
+    username = req.body.username;
+    password = req.body.password;
 
     connection.query("SELECT * FROM users WHERE email = ? OR username = ?", [email, username], (err, foundUsers) => {
         if(!err) {
@@ -240,10 +244,43 @@ app.get("/profile", (req, res) => {
 
 app.get("/tickets", (req, res) => {
     if(loggedIn) {
-        res.render("tickets");
+        connection.query("SELECT * FROM tickets", (err, tickets) => {
+            if(!err) {
+                res.render("tickets", {foundTickets: tickets});     
+            } else {
+                console.log(err);
+            }
+        });
     } else {
         res.render("404");
     }
+});
+
+app.post("/buy", (req, res) => {
+    let key, i = 0, finalAmount = 0;
+
+    for(key in req.body) {
+        quantities[i++] = req.body[key];
+    }
+
+    connection.query("SELECT amount FROM users WHERE username = ?", [username], (error, amt) => {
+        if(!error) {
+            finalAmount = amt[0].amount
+            finalAmount += quantities[0]*2999 + quantities[1]*3449 + quantities[2]*1699 + quantities[3]*4999 + quantities[4]*6099;
+            //console.log(finalAmount);
+        
+            connection.query("UPDATE users SET amount = ?", [finalAmount], (err, results) => {
+                if(err) {
+                    console.log(err);
+                }
+            });
+
+            res.redirect("/profile");
+        } else {
+            console.log(error);
+        }
+    });
+
 });
 
 app.get("/contact", (req, res) => {
