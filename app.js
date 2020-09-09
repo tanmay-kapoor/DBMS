@@ -237,7 +237,7 @@ app.get("/artists", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-
+    console.log("Entered profile");
     if(loggedIn) {
         purchasedTickets = [];
         let q = 
@@ -361,7 +361,7 @@ app.post("/buy", (req, res) => {
     
                                             connection.query(q, [username, i+1, quantity], (err, result) => {
                                                 if(!err) {
-                                                    // console.log("Inserted");
+                                                    console.log("Inserted");
                                                     callback(null);
                                                 } else {
                                                     console.log(err);
@@ -380,6 +380,7 @@ app.post("/buy", (req, res) => {
                         if(err) {
                             console.log(err);
                         } else {
+                            console.log("Redirecting to profile"); //CREATE NEW ACCOUNT AND RUN BUY TICKETS AND CHECK CONSOLE FOR THIS
                             res.redirect("/profile");
                         }
                     });

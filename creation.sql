@@ -44,6 +44,24 @@ CREATE TABLE reviews(
     description		VARCHAR(100)
 );
 
+DELIMITER //
+CREATE FUNCTION func_convert(title VARCHAR(30)) RETURNS VARCHAR(30) DETERMINISTIC
+BEGIN
+	SET title = UPPER(title);
+    RETURN title;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER capitalize
+BEFORE INSERT ON reviews FOR EACH ROW
+BEGIN
+	DECLARE v_title VARCHAR(30);
+    SELECT NEW.title INTO v_title;
+	SET NEW.title = func_convert(v_title);
+END //
+DELIMITER ;
+
 INSERT INTO tickets(name, description, price) VALUES("Silver Ticket", "Basic Entry", 2999),
 											        ("Gold Ticket", "Vip Entry", 3449),
 													("Early Bird Ticket", "Basic Entry", 1699),
