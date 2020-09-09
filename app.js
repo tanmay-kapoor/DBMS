@@ -84,7 +84,7 @@ app.post("/signup", (req, res) => {
                 if(email!=="" && username!="" && password!="" && isValid(username)) {
                     connection.query("INSERT INTO users(email, username, password) VALUES(?)", [[email, username, password]], (error, result) => {
                         if(!error) {
-                            console.log("Account created");
+                            // console.log("Account created");
                             res.redirect("/login");
                         } else {
                             console.log(error);
@@ -361,7 +361,7 @@ app.post("/buy", (req, res) => {
     
                                             connection.query(q, [username, i+1, quantity], (err, result) => {
                                                 if(!err) {
-                                                    console.log("Inserted");
+                                                    // console.log("Inserted");
                                                     callback(null);
                                                 } else {
                                                     console.log(err);
@@ -372,6 +372,8 @@ app.post("/buy", (req, res) => {
                                         console.log(err);
                                     }                                         
                                 });
+                            } else {
+                                callback(null);
                             }
                         } else {
                             callback(err);
