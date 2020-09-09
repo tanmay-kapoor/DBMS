@@ -140,7 +140,7 @@ app.post("/forgot-password", (req, res) => {
 
                         const message = {
                             to: email,
-                            from: "tanmay.skater@gmail.com",
+                            from: process.env.SENDER_EMAIL,
                             subject: "Forgot password",
                             html: "Your new password is <strong>" + newPassword + "</strong><br>Pls use this to login."
                         }
@@ -354,8 +354,8 @@ app.post("/contact", (req, res) => {
                 let username = foundUsernames[0].username;
     
                 const messageToSend = {
-                    to: "tanmay.skater@gmail.com",
-                    from: "tanmay.skater@gmail.com",
+                    to: process.env.SENDER_EMAIL,
+                    from: process.env.SENDER_EMAIL,
                     subject: subject,
                     html: "<strong>Name: </strong>"+name+"<br><strong>Email: </strong>"+email+"<br><strong>Account username: </strong>"+username+"<br><strong>Issue: </strong>"+message
                 }
