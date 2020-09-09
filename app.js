@@ -269,8 +269,10 @@ app.post("/buy", (req, res) => {
             finalAmount += quantities[0]*2999 + quantities[1]*3449 + quantities[2]*1699 + quantities[3]*4999 + quantities[4]*6099;
             //console.log(finalAmount);
         
-            connection.query("UPDATE users SET amount = ?", [finalAmount], (err, results) => {
-                if(err) {
+            connection.query("UPDATE users SET amount = ? WHERE username = ?", [finalAmount, username], (err, results) => {
+                if(!err) {
+                    
+                } else {
                     console.log(err);
                 }
             });
