@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mysql = require("mysql");
+const async = require("async");
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -78,7 +79,7 @@ app.post("/signup", (req, res) => {
 
     connection.query("SELECT * FROM users WHERE email = ? OR username = ?", [email, username], (err, foundUsers) => {
         if(!err) {
-            if(!foundUsers.length > 0) {
+            if(foundUsers.length === 0) {
                 if(email!=="" && username!="" && password!="" && isValid(username)) {
                     connection.query("INSERT INTO users(email, username, password) VALUES(?)", [[email, username, password]], (error, result) => {
                         if(!error) {
@@ -271,7 +272,58 @@ app.post("/buy", (req, res) => {
         
             connection.query("UPDATE users SET amount = ? WHERE username = ?", [finalAmount, username], (err, results) => {
                 if(!err) {
-                    
+
+                    async.forEachOf(quantities, (quantity, i, callback) => {
+                        if(!err) {
+                            if(quantity > 0) {
+                                let q = `SELECT quantity FROM user_ticket_relation
+                                         WHERE user_id = (SELECT user_id FROM users WHERE username = ?)
+                                            AND ticket_id = ?`;
+
+                                connection.query(q, [username, i+1], (err, results) => {
+                                    if(!err) {
+                                        if(results.length > 0) {
+                                            
+                                            q = `UPDATE user_ticket_relation 
+                                                SET quantity = quantity + ? 
+                                                WHERE user_id = (SELECT user_id FROM users WHERE username = ?)
+                                                AND ticket_id = ?`;
+
+                                            connection.query(q, [quantity, username, i+1], (err, result) => {
+                                                if(!err) {
+                                                    console.log("Updated     " + result);
+                                                } else {
+                                                    console.log(err);
+                                                }
+                                            });
+
+                                        } else {
+                                            q = `INSERT INTO user_ticket_relation VALUES(
+                                                (SELECT user_id FROM users WHERE username = ?), ?, ?
+                                            )`;
+    
+                                            connection.query(q, [username, i+1, quantity], (err, result) => {
+                                                if(!err) {
+                                                    console.log("Inserted     " + result);
+                                                } else {
+                                                    console.log(err);
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        console.log(err);
+                                    }                                         
+                                });
+                            }
+                        } else {
+                            callback(err);
+                        }
+                    }, err => {
+                        if(err) {
+                            console.log(err);
+                        }
+                    });
+
                 } else {
                     console.log(err);
                 }
