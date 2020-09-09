@@ -27,6 +27,7 @@ let failure = false;
 let msg = "";
 let loggedIn = false;
 let quantities = [];
+let purchasedTickets = [];
 
 app.get("/", (req, res) => {
     res.redirect("/login");
@@ -236,8 +237,64 @@ app.get("/artists", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
+
     if(loggedIn) {
-        res.render("profile");
+        purchasedTickets = [];
+        let q = 
+        `SELECT ticket_id, quantity FROM user_ticket_relation 
+        WHERE user_id = (SELECT user_id FROM users WHERE username = ?)`;
+
+        connection.query(q, [username], (err, ids) => {
+            if(!err) { 
+                if(ids.length > 0) {
+
+                    async.forEachOf(ids, (row, i, callback) => {
+
+                        connection.query("SELECT name FROM tickets WHERE ticket_id = ?", [row.ticket_id], (err, name) => {
+                            if(!err) {
+
+                                let temp = {
+                                    name: name[0].name,
+                                    quantity: row.quantity
+                                };
+                                purchasedTickets.push(temp);
+
+                                callback(null)
+                            } else {
+                                console.log(err);
+                            }
+                        });
+
+                    }, err => {
+                        if(err) {
+                            console.log(err);
+                        } else {
+                            connection.query("SELECT amount FROM users WHERE username = ?", [username], (err, amount) => {
+                                if(!err) {
+                                    let payable = amount[0].amount;
+                                    res.render("profile", {tickets: purchasedTickets, payable: payable});
+                                } else {
+                                    console.log(err);
+                                }
+                            });
+                        }
+                    });
+
+                } else {
+                    let temp = {
+                        name: "No Tickets bought",
+                        quantity: "Your tickets will be displayed here once you buy them."
+                    };
+                    purchasedTickets.push(temp);
+                    let payable = 0;
+
+                    res.render("profile", {tickets: purchasedTickets, payable: payable});
+                }
+            } else {
+                console.log(err);
+            }
+        });
+
     } else {
         res.render("404");
     }
@@ -268,7 +325,6 @@ app.post("/buy", (req, res) => {
         if(!error) {
             finalAmount = amt[0].amount
             finalAmount += quantities[0]*2999 + quantities[1]*3449 + quantities[2]*1699 + quantities[3]*4999 + quantities[4]*6099;
-            //console.log(finalAmount);
         
             connection.query("UPDATE users SET amount = ? WHERE username = ?", [finalAmount, username], (err, results) => {
                 if(!err) {
@@ -291,7 +347,8 @@ app.post("/buy", (req, res) => {
 
                                             connection.query(q, [quantity, username, i+1], (err, result) => {
                                                 if(!err) {
-                                                    console.log("Updated     " + result);
+                                                    // console.log("Updated");
+                                                    callback(null);
                                                 } else {
                                                     console.log(err);
                                                 }
@@ -304,7 +361,8 @@ app.post("/buy", (req, res) => {
     
                                             connection.query(q, [username, i+1, quantity], (err, result) => {
                                                 if(!err) {
-                                                    console.log("Inserted     " + result);
+                                                    // console.log("Inserted");
+                                                    callback(null);
                                                 } else {
                                                     console.log(err);
                                                 }
@@ -321,6 +379,8 @@ app.post("/buy", (req, res) => {
                     }, err => {
                         if(err) {
                             console.log(err);
+                        } else {
+                            res.redirect("/profile");
                         }
                     });
 
@@ -328,8 +388,6 @@ app.post("/buy", (req, res) => {
                     console.log(err);
                 }
             });
-
-            res.redirect("/profile");
         } else {
             console.log(error);
         }
