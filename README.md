@@ -1,9 +1,11 @@
 # DBMS
 DBMS Mini Project on Event Management
 
+Run creation.sql once before starting the server
+
 Create a .env file having:
 
-1. PASWSWORD          :  password of the mysql user root
+1. PASSWORD          :  password of the mysql user root
 
 2. SENDGRID_API_KEY   :  api key generated for your account from sendgrid website
 
