@@ -55,6 +55,16 @@
                         <h2>Purchased Tickets</h2>
                         <h3 style="color: green; font-weight: bold;"><br><br>Amount Payabale  :  Rs.<%= payable %></h3>
                     </div><!-- entry-title -->
+
+                    <div>
+                        <% if(payable!==0) { %>
+                            <button type="button" class="btn btn-primary btn-lg pay-btn">Pay</button>
+                            <button type="button" class="btn btn-primary btn-lg" style="margin-left: 20px;"><a href="/tickets" style="color: white; text-decoration: none;">Buy Tickets</a></button>
+                        <% } else { %>
+                            <button type="button" class="btn btn-primary btn-lg"><a href="/tickets" style="color: white; text-decoration: none;">Buy Tickets</a></button>
+                        <% } %>
+                    </div>
+
                 </div>
 
                 <div class="row blog-list-page">

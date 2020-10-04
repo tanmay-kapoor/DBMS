@@ -10,11 +10,14 @@
   "dependencies": {
     "@sendgrid/mail": "^7.2.5",
     "async": "^3.2.0",
+    "axios": "^0.20.0",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "razorpay": "^2.0.6",
+    "shortid": "^2.2.15"
   },
   "keywords": [],
   "description": ""

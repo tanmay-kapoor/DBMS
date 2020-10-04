@@ -1,9 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
-const ejs = require("ejs");
 const mysql = require("mysql");
 const async = require("async");
+const Razorpay = require("razorpay");
+const shortid = require("shortid");
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -28,6 +29,13 @@ let msg = "";
 let loggedIn = false;
 let quantities = [];
 let purchasedTickets = [];
+let payable = 0;
+let amount;
+
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_API_KEY,
+    key_secret: process.env.RAZORPAY_KEY_SECRET
+  });
 
 app.get("/", (req, res) => {
     res.redirect("/login");
@@ -84,7 +92,6 @@ app.post("/signup", (req, res) => {
                 if(email!=="" && username!="" && password!="" && isValid(username)) {
                     connection.query("INSERT INTO users(email, username, password) VALUES(?)", [[email, username, password]], (error, result) => {
                         if(!error) {
-                            // console.log("Account created");
                             res.redirect("/login");
                         } else {
                             console.log(error);
@@ -137,7 +144,6 @@ app.post("/forgot-password", (req, res) => {
             if(foundUsers.length > 0) {
                 connection.query("UPDATE users SET password = ? WHERE email = ?", [newPassword, email], (error, result) => {
                     if(!error) {
-                        console.log("Password updated");
 
                         const message = {
                             to: email,
@@ -152,7 +158,6 @@ app.post("/forgot-password", (req, res) => {
                     }
                 });
             } else {
-                console.log("User not found");
                 failure = true;
                 msg = "User not found";
                 res.redirect("/forgot-password");
@@ -237,7 +242,6 @@ app.get("/artists", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-    console.log("Entered profile");
     if(loggedIn) {
         purchasedTickets = [];
         let q = 
@@ -271,7 +275,7 @@ app.get("/profile", (req, res) => {
                         } else {
                             connection.query("SELECT amount FROM users WHERE username = ?", [username], (err, amount) => {
                                 if(!err) {
-                                    let payable = amount[0].amount;
+                                    payable = amount[0].amount;
                                     res.render("profile", {tickets: purchasedTickets, payable: payable});
                                 } else {
                                     console.log(err);
@@ -286,7 +290,7 @@ app.get("/profile", (req, res) => {
                         quantity: "Your tickets will be displayed here once you buy them."
                     };
                     purchasedTickets.push(temp);
-                    let payable = 0;
+                    payable = 0;
 
                     res.render("profile", {tickets: purchasedTickets, payable: payable});
                 }
@@ -298,6 +302,75 @@ app.get("/profile", (req, res) => {
     } else {
         res.render("404");
     }
+});
+
+app.post("/payment", async(req, res) => {
+
+    amount = payable>20000?10000:payable;
+
+    const options = {
+        amount: amount*100, 
+        currency: "INR", 
+        receipt: shortid.generate(), 
+        payment_capture: 1
+    }
+    try {
+        const response = await razorpay.orders.create(options);
+        // console.log(response);
+        res.json({
+            id: response.id,
+            amount: response.amount,
+            currency: response.currency
+        });
+    } catch(err) {
+        // console.log("Transaction limit exceeded");
+        res.send("err");
+    }
+});
+
+app.post("/update", (req, res) => {
+
+    connection.query("UPDATE users SET amount = ? WHERE username = ?", [Number(payable-amount), username], (err, result) => {
+        
+        if(!err) {
+            if(payable-amount === 0) {
+                connection.query("SELECT email FROM users WHERE username = ?", [username], (err, record) => {
+
+                    if(!err) {
+                        let tickets = "";
+                        for(let i = 0; i<purchasedTickets.length; i++) {
+                            tickets += purchasedTickets[i].name + " : " + purchasedTickets[i].quantity + "<br>";
+                        }
+    
+                        const html = `
+                        Dear ${username},<br><br>
+    
+                        Your payment has been acknowledged and <strong>tickets have been confirmed!</strong><br><br>
+    
+                        <strong>Tickets bought:</strong><br>
+                        ${tickets}<br>
+                        Please show this email on the day of the event to get entry.<br>
+                        Thank You!
+                        `;
+    
+                        const message = {
+                            to: record[0].email,
+                            from: process.env.SENDER_EMAIL,
+                            subject: "Tickets confirmed",
+                            html: html
+                        }
+                        sgMail.send(message).then(res.send("ok")).catch(err => console.log(err));
+                    } else {
+                        console.log(err);
+                    }
+                });
+            } else {
+                res.send("ok");
+            }
+        } else {
+            console.log(err);
+        }
+    });
 });
 
 app.get("/tickets", (req, res) => {
@@ -347,7 +420,6 @@ app.post("/buy", (req, res) => {
 
                                             connection.query(q, [quantity, username, i+1], (err, result) => {
                                                 if(!err) {
-                                                    // console.log("Updated");
                                                     callback(null);
                                                 } else {
                                                     console.log(err);
@@ -361,7 +433,6 @@ app.post("/buy", (req, res) => {
     
                                             connection.query(q, [username, i+1, quantity], (err, result) => {
                                                 if(!err) {
-                                                    // console.log("Inserted");
                                                     callback(null);
                                                 } else {
                                                     console.log(err);
@@ -382,7 +453,6 @@ app.post("/buy", (req, res) => {
                         if(err) {
                             console.log(err);
                         } else {
-                            console.log("Redirecting to profile"); //CREATE NEW ACCOUNT AND RUN BUY TICKETS AND CHECK CONSOLE FOR THIS
                             res.redirect("/profile");
                         }
                     });
@@ -426,6 +496,10 @@ app.post("/contact", (req, res) => {
             console.log(error);
         }
     });
+});
+
+app.get("/logo.jpg", (req, res) => {
+    res.sendFile(__dirname + "/public/images/logo.jpg");
 });
 
 app.listen(3000, () => console.log("Server started on port 3000"));
