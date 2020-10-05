@@ -229,6 +229,14 @@
     });
   }
 
+  // Contact
+  axios.post("/email")
+    .then(res => {
+      let email = res.data;
+      $(".contact-email").val(email).attr('disabled', 'disabled');
+    })
+    .catch(err => console.log(err));
+
   $(".pay-btn").click(function () {
     displayRazorpay();
   });
@@ -258,16 +266,22 @@
     }
 
     axios.post("/payment", {})
-      .then((res) => {
-        
+      .then(res => {
+        let apiKey = "";
+
         if(res.data === "err") {
-            alert("Transaction limit exceeded");
+            // alert("Transaction limit exceeded");
         } else {
-            console.log(res.data);
             const data = res.data;
 
+            axios.post("/api-key", {})
+              .then(res => {
+                apiKey = res.data;
+              })
+              .catch(err => console.log(err));
+
             const options = {
-            key: "rzp_test_eOYX6ZOdOdyduo",
+            key: apiKey,
             amount: data.amount,
             currency: data.currency,
             order_id: data.id,
@@ -286,6 +300,6 @@
             payment.open();
         }
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   }
 })(jQuery);

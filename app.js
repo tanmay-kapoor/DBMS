@@ -328,6 +328,10 @@ app.post("/payment", async(req, res) => {
     }
 });
 
+app.post("/api-key", (req, res) => {
+    res.send(process.env.RAZORPAY_API_KEY);
+});
+
 app.post("/update", (req, res) => {
 
     connection.query("UPDATE users SET amount = ? WHERE username = ?", [Number(payable-amount), username], (err, result) => {
@@ -475,6 +479,16 @@ app.get("/contact", (req, res) => {
         res.render("404");
     }
 });
+
+app.post("/email", (req, res) => {
+    connection.query("SELECT email FROM users WHERE username = ?", [username], (err, record) => {
+        if(!err) {
+            res.send(record[0].email);
+        } else {
+            console.log(err);
+        }
+    })
+})
 
 app.post("/contact", (req, res) => {
     const { name, email, subject, message } = req.body;
